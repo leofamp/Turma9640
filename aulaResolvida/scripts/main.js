@@ -1,7 +1,7 @@
 let menu = document.getElementById("menu");
 let select = document.getElementById("numCards");
 let start = document.getElementById("start");
-
+let board = document.getElementById("board");
 
 let nivel = 1;
 
@@ -17,3 +17,10 @@ for (let i = 4; i <=10 ; i+=2){
 
     nivel++;
 }
+
+start.addEventListener("click",()=>{
+    menu.classList.add("hidden")
+    board.classList.remove("hidden")
+})
+
+start.click()
