@@ -4,13 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo da Memória</title>
-    <link rel="stylesheet" href="css/board.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/board.css">
+    <script src="scripts/cards.js" defer></script>
+    <script src="scripts/board.js" defer></script>
     <script src="scripts/main.js" defer></script>
 </head>
 <body>
+    <!--Template-->
+    <template id="cardTemplate">
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front"></div>
+                <div class="flip-card-back"><img src="img/heros/card02.jpeg" ></div>
+            </div>
+        </div>
+    </template>
     <!--Board-->
     <div id ="board" class="hidden"></div>
+
+    <!--Menu-->
     <div id="menu">
         <h1>Memória do Herói</h1>
         <div class="container">
