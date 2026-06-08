@@ -1,7 +1,6 @@
 class CardManager{
     
     flippedCards = new Set();
-
     urlFactory;
 
     constructor(factory){
@@ -12,8 +11,8 @@ class CardManager{
     gen(heroNumber){
         let template = document.getElementById("cardTemplate")
         let clone = template.content.cloneNode(true)
-
+        
         return clone
     }
     
-}
+}   

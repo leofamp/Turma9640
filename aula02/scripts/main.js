@@ -23,9 +23,8 @@ for (let i = 4; i <=10 ; i+=2){
 start.addEventListener("click", ()=>{
     menu.classList.add("hidden");
     boardDiv.classList.remove("hidden");
-})
+});
 
-start.click()
 
 
 
