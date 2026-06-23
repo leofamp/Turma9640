@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import Saudacao from './components/exemplo';
+import Casa from './components/Casa';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Casa/>
+    <Saudacao nome = "Leonardo"/>
   </React.StrictMode>
 );
 
