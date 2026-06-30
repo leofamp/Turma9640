@@ -9,3 +9,4 @@ export default function Janela({largura, altura, cor}){
     />
     )
 }
+
