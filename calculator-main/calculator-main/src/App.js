@@ -2,7 +2,9 @@ import { Calculator } from "./components/calculator";
 
 function App() {
   return (
-    <Calculator />
+    <div className="flex p-10 justify-center">
+      <Calculator />
+    </div>
   );
 }
 

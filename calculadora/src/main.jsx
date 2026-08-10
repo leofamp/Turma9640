@@ -9,8 +9,5 @@ import Contador from './components/Contador.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-    <Counter/>
-    <ClickButton/>
-    <Contador/>
   </StrictMode>,
 )
