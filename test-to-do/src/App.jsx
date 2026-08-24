@@ -3,7 +3,57 @@ import { useState } from "react";
 import QuestList from "./components/QuestList";
 
 export default function App() {
-  const [quests,setQuests] = useState([])
+  const localQuests = JSON.parse(window.localStorage.getItem("quests")) || [];
+  const [quests,setQuests] = useState(localQuests)
+
+  function saveDeleteQuest(quest){
+    let auxQuests = quests;
+    const filterAuxQuests = auxQuests.filter(
+      (auxQuest) => auxQuest.id !== quest.id
+    )
+    localStorage.setItem("quests",JSON.stringify(filterAuxQuests))
+    getQuests();
+  }
+
+  function saveEditQuest(quest, title) {
+    let auxQuests = quests;
+    const editedQuest = {
+        id: quest.id,
+        title: title || quest.title,
+        status: quest.status,
+        created_at: quest.created_at,
+    };
+
+    const findQuestPosition = auxQuests.findIndex(
+        (quest) => quest.id === editedQuest.id
+    );
+
+    auxQuests.splice(findQuestPosition, 1, editedQuest);
+
+    localStorage.setItem("quests", JSON.stringify(auxQuests));
+
+    getQuests();
+  }
+
+  function saveConcludedQuest(quest) {
+  let auxQuests = quests;
+  const editedQuest = {
+    id: quest.id,
+    title: quest.title,
+    status: "concluído",
+    created_at: quest.created_at,
+  };
+
+  const findQuestPosition = auxQuests.findIndex(
+    (quest) => quest.id === editedQuest.id
+  );
+
+  auxQuests.splice(findQuestPosition, 1, editedQuest);
+
+  localStorage.setItem("quests", JSON.stringify(auxQuests));
+
+  getQuests();
+  } 
 
   function saveAddQuest(title){
     let auxQuests = quests;
@@ -28,14 +78,36 @@ export default function App() {
     function getQuests(){
       setQuests(JSON.parse(window.localStorage.getItem("quests")))
     }
+
+  const concludedQuests = quests.filter((quest) => quest.status === "concluído")
+  const notConcludedQuests = quests.filter((quest) => quest.status === "aberto")
   return (
     <div className="flex h-screen justify-center items-center">
       <div className="card w-[80%] lg:w-[50%] h-[70%] shadow-md rounded-sm transform ease-out duration-300 items-center p-10 gap-5">
-        <h1 className="text-5x1 font-work font-bold w-fit text-center">
-          Quest-to-do
+        <h1 className="text-5xl font-work font-bold w-fit text-center">
+          Quests To Do
         </h1>
-        <AddQuest saveAddQuest={saveAddQuest}/>
-        <QuestList quests={quests}/>
+        <AddQuest saveAddQuest={saveAddQuest} />
+
+        <div className="flex flex-col gap-4 w-full items-center">
+          <h2>Abertas</h2>
+          <QuestList
+            quests={notConcludedQuests}
+            saveEditQuest={saveEditQuest}
+            saveConcludedQuest={saveConcludedQuest}
+            saveDeleteQuest={saveDeleteQuest}
+          />
+        </div>
+
+        <div className="flex flex-col gap-4 w-full items-center">
+          <h2>Concluídas</h2>
+          <QuestList
+            quests={concludedQuests}
+            saveEditQuest={saveEditQuest}
+            saveConcludedQuest={saveConcludedQuest}
+          />
+          
+        </div>
       </div>
     </div>
   );
