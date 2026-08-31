@@ -3,7 +3,12 @@ import { useState } from "react";
 import QuestList from "./components/QuestList";
 
 export default function App() {
+  const localQuests = JSON.parse(window.localStorage.getItem("quests")) || []
   const [quests,setQuests] = useState([])
+
+  function saveEditQuest(quest,title){}
+  function saveConcludedQuest(quest){}
+  function saveDeleteQuest(quest){}
   
   function saveAddQuest(title){
     let auxQuests = quests;
@@ -35,7 +40,12 @@ export default function App() {
           Quest-to-do
         </h1>
         <AddQuest saveAddQuest={saveAddQuest}/>
-        <QuestList quests = {quests}/>
+        <QuestList 
+          quests = {quests}
+          saveConcludedQuest={saveConcludedQuest}
+          saveEditQuest={saveEditQuest}
+          saveDeleteQuest={saveDeleteQuest}
+        />
       </div>
     </div>
   );
