@@ -1,3 +1,4 @@
+import './index.css'
 import AddQuest from "./components/AddQuest";
 import { useState } from "react";
 import QuestList from "./components/QuestList";
