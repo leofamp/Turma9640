@@ -6,7 +6,8 @@ export default function AddRecado({ saveAddRecado }) {
   return (
     <div>
       <input value={texto} onChange={(e) => setTexto(e.target.value)} />
-      <button onClick={() => saveAddRecado(texto)}>Adicionar</button> {}
+      <button onClick={adicionar}>Adicionar</button> 
     </div>
   );
 }
+
