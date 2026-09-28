@@ -3,8 +3,8 @@ import Navbar from "./components/navbar"
 import Home from './components/home'
 import Guilds from './components/guilds'
 import Members from './components/members'
-import GuildForm from './components/guildForm'   // <-- novo
-import MemberForm from './components/memberForm' // <-- novo
+import GuildForm from './components/guildForm'   
+import MemberForm from './components/memberForm' 
 
 const App = () => (
   <Router>
@@ -14,8 +14,8 @@ const App = () => (
         <Route path='/' element={<Home />} />
         <Route path='/guilds' element={<Guilds />} />
         <Route path='/members' element={<Members />} />
-        <Route path='/guilds/:guildId' element={<GuildForm />} />   {/* <-- novo */}
-        <Route path='/members/:memberId' element={<MemberForm />} /> {/* <-- novo */}
+        <Route path='/guilds/:guildId' element={<GuildForm />} />   
+        <Route path='/members/:memberId' element={<MemberForm />} /> 
       </Routes>
     </div>
   </Router>
