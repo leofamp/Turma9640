@@ -1,13 +1,26 @@
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import MemberForm from "./memberForm"
+import requester from "./axios"
+
 
 export default function Members() {
   const navigate = useNavigate()
   const [members, setMembers] = useState([])
 
   const updateMembers = (data) => setMembers([...members, data])
-  
+
+  useEffect(()=>{
+  const getMembers = async () => {
+    try {
+      const response = await requester.get("/members")
+      setMembers(response.data)
+    } catch (error){
+      console.error("Erro ao buscar os membros: ", error)
+    }
+  }
+  getMembers()
+  },[])
   return (
     <div className="flex flex-col gap-4 p-5 text-orange-500">
       <h1>Membros</h1>

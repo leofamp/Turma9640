@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import requester from "./axios"
 
 export default function GuildForm(props){
     const { guildId } = useParams()
     const [guild, setGuild] = useState()
-
+    
     const addGuild = async(guild) => {
         const {name} = guild
         const created = {name}
@@ -20,8 +20,33 @@ export default function GuildForm(props){
 
     const onSubmit = (e) => {
         e.preventDefault()
-        addGuild(guild)
+        handleSubmit(guild)
     }
+    useEffect(()=>{
+        const getGuild = async () =>{
+            try {
+                const response = await requester.get(`/guilds/${guildId}`)
+                setGuild(response.data)
+            }catch(error){
+                console.error("Erro ao buscar a guilda:", error)
+            }
+        }
+        if (guildId) getGuild()
+    }, [guildId])
+
+    const editGuild = async (guild) => {
+        const {id, name} = guild
+        const updated = {
+            name,
+        }
+        try{
+            const response = await requester.patch(`/guilds/${id}`, updated)
+            setGuild(response.data)
+        }catch(error){
+            console.error("Erro ao editar a guilda:", error)
+        }
+    }
+    const handleSubmit = guildId ? editGuild : addGuild
 
     return(
         <form onSubmit={onSubmit} className="flex flex-col gap-4 p-5 text-orange-500">
