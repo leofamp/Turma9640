@@ -1,4 +1,11 @@
 {
   "guilds": [],
-  "members": []
+  "members": [
+    {
+      "name": "let",
+      "guildId": null,
+      "id": "j9q6H_ohKJI"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

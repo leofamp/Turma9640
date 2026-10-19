@@ -1,69 +1,70 @@
 import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import requester from "./axios"
 
-export default function GuildForm(props){
-    const { guildId } = useParams()
-    const [guild, setGuild] = useState()
-    
-    const addGuild = async(guild) => {
-        const {name} = guild
-        const created = {name}
+export default function GuildForm(props) {
+  const { guildId } = useParams()
+  const [guild, setGuild] = useState()
 
-        try{
-            const response = await requester.post("/guilds", created)
-            props.updateGuilds?.(response.data)
-        } catch (error) {
-            console.error("Erro ao adicionar guilda: ",error)
-        }
+  useEffect(() => {
+    const getGuild = async () => {
+      try {
+        const response = await requester.get(`/guilds/${guildId}`)
+        setGuild(response.data)
+      } catch (error) {
+        console.error("Erro ao buscar a guilda:", error)
+      }
     }
+    if (guildId) getGuild()
+  }, [guildId])
 
-    const onSubmit = (e) => {
-        e.preventDefault()
-        handleSubmit(guild)
+  const addGuild = async (guild) => {
+    const { name } = guild
+    const created = { name }
+
+    try {
+      const response = await requester.post("/guilds", created)
+      props.updateGuilds?.(response.data)
+    } catch (error) {
+      console.error("Erro ao adicionar guilda: ", error)
     }
-    useEffect(()=>{
-        const getGuild = async () =>{
-            try {
-                const response = await requester.get(`/guilds/${guildId}`)
-                setGuild(response.data)
-            }catch(error){
-                console.error("Erro ao buscar a guilda:", error)
-            }
-        }
-        if (guildId) getGuild()
-    }, [guildId])
+  }
 
-    const editGuild = async (guild) => {
-        const {id, name} = guild
-        const updated = {
-            name,
-        }
-        try{
-            const response = await requester.patch(`/guilds/${id}`, updated)
-            setGuild(response.data)
-        }catch(error){
-            console.error("Erro ao editar a guilda:", error)
-        }
+  const editGuild = async (guild) => { // <-- novo, a partir daqui
+    const { id, name } = guild
+    const updated = { name }
+
+    try {
+      const response = await requester.patch(`/guilds/${id}`, updated)
+      setGuild(response.data)
+    } catch (error) {
+      console.error("Erro ao editar a guilda:", error)
     }
-    const handleSubmit = guildId ? editGuild : addGuild
+  }
 
-    return(
-        <form onSubmit={onSubmit} className="flex flex-col gap-4 p-5 text-orange-500">
-            <div className="flex flex-col gap-1">
-                <label> Guilda </label>
-                <input 
-                    name="name" 
-                    type="text"
-                    defaultValue={guild?.name}
-                    onChange={(e) =>
-                         setGuild((prev) => ({...prev, name: e.target.value}))}    
-                />
-            </div>
-            <button type="submit" className="w-fit">
-                Confirmar
-            </button>
-        </form>
-    )
+  const handleSubmit = guildId ? editGuild : addGuild // <-- novo, até aqui
 
+  const onSubmit = (e) => {
+    e.preventDefault()
+    handleSubmit(guild) // <-- alterado (antes chamava addGuild direto)
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 p-5 text-orange-500">
+      <div className="flex flex-col gap-1">
+        <label>Guilda</label>
+        <input
+          name="name"
+          type="text"
+          defaultValue={guild?.name}
+          onChange={(e) =>
+            setGuild((prev) => ({ ...prev, name: e.target.value }))
+          }
+        />
+      </div>
+      <button type="submit" className="w-fit">
+        Confirmar
+      </button>
+    </form>
+  )
 }
